@@ -1,6 +1,8 @@
 ---
 - name: Playbook to kick off a mass migration from vmware to ocp-virt
   hosts: localhost
+  vars:
+    resource_state: present
   collections:
     - rlopez.ocp_virt
 #   roles:
