@@ -1,0 +1,44 @@
+---
+- name: Playbook to kick off a mass migration from vmware to ocp-virt
+  hosts: localhost
+  collections:
+    - rlopez.ocp_virt
+#   roles:
+#   - {role: rlopez.ocp_virt.validation}
+#   - {role: rlopez.ocp_virt.providers}
+#   - {role: rlopez.ocp_virt.virt_plan}
+
+  tasks:
+
+    - name: Load in provision data
+      ansible.builtin.include_vars:
+        file: provision_data.yaml
+
+    - name: Debug provision data
+      ansible.builtin.debug:
+        msg: "{{ provision_data }}"
+
+    - block:
+
+      - name: Loop over users, including the tasks
+        vars:
+          _user_name: "{{ _user.value.user }}"
+          _user_password: "{{ _user.value.password }}"
+        ansible.builtin.include_tasks:
+          file: delete_migration.yaml
+        loop: "{{ provision_data.users | dict2items }}"
+        loop_control:
+          loop_var: _user
+          label: "{{ _user.key }}"
+
+    # - name: Get all migration toolkit for virtualization plans that are status.condition.type == "Archived"
+    #   kubernetes.core.k8s:
+    #     namespace: "mtv-{{ _user_name }}"
+    #     kind: Plan
+    #     api_version: forklift.konveyor.io/v1beta1
+    #     field_selectors:
+    #       - status.type=Archived
+    #
+    - name: Stop execution of this playbook
+      ansible.builtin.fail:
+        msg: "Stop right there!"

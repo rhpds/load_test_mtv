@@ -1,0 +1,43 @@
+---
+- name: Playbook to kick off a mass migration from vmware to ocp-virt
+  hosts: localhost
+  collections:
+    - rlopez.ocp_virt
+#   roles:
+#   - {role: rlopez.ocp_virt.validation}
+#   - {role: rlopez.ocp_virt.providers}
+#   - {role: rlopez.ocp_virt.virt_plan}
+
+  tasks:
+
+    - name: Debug resource state
+      ansible.builtin.debug:
+        msg: "{{ resource_state }}"
+
+    - name: Load in provision data
+      ansible.builtin.include_vars:
+        file: provision_data.yaml
+
+    - name: Debug provision data
+      ansible.builtin.debug:
+        msg: "{{ provision_data }}"
+
+    - block:
+
+      - name: Loop over users, including the tasks
+        vars:
+          _user_name: "{{ _user.value.user }}"
+          _user_password: "{{ _user.value.password }}"
+          vcenter_hostname: "{{ _user.value.vcenter_console}}"
+          vcenter_password: "{{ _user.value.vcenter_password }}"
+          vcenter_username: "{{ _user.value.vcenter_full_user }}"
+        ansible.builtin.include_tasks:
+          file: kick_off_migration.yaml
+        loop: "{{ provision_data.users | dict2items }}"
+        loop_control:
+          loop_var: _user
+          label: "{{ _user.key }}"
+
+    - name: Stop execution of this playbook
+      ansible.builtin.fail:
+        msg: "Stop right there!"
