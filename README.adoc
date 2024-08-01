@@ -26,21 +26,15 @@ I use https://github.com/pyenv/pyenv?tab=readme-ov-file[pyenv] with https://gith
 
 The playbook searches for `./provision_data.yaml` and uses that to authenticate as each user to the cluster.
 
-````
-ansible-playbook ./playbook_multi.yml
-````
+ ansible-playbook ./playbook_multi.yml
 
 === Cleanup
 
 . First try deleting everything, but only setting the plans to Archived=true, per the docs.
 I don't see how it actually really cleans up anything, but I like to be a good citizen.
 
-````
-ansible-playbook ./delete_all.yaml  --e delete_plans=false
-````
+ ansible-playbook ./delete_all.yaml  --e delete_plans=false
 
 . Second, the Plans will not go away in Archived=true mode, so run the playbook again, with `delete_plans=true`
 
-````
-ansible-playbook ./delete_all.yaml  --e delete_plans=true
-````
+ ansible-playbook ./delete_all.yaml  --e delete_plans=true
