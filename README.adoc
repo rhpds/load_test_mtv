@@ -21,6 +21,7 @@ I use https://github.com/pyenv/pyenv?tab=readme-ov-file[pyenv] with https://gith
 . `pyenv virtualenv migration_test`
 . `pip install ansible`
 . `ansible-galaxy role install -r requirements.yml`
+. or for newer ansible versions use `ansible-galaxy collection install -r load_test_mtv/requirements.yml`
 
 === Run the playbook
 
