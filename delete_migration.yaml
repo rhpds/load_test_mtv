@@ -20,16 +20,18 @@
   #   group/k8s:
   #     api_key: "{{ _auth_rez.openshift_auth.api_key }}"
   #
+
+  - name: Get all Plans in the mtv namespace
+    kubernetes.core.k8s_info:
+      namespace: "mtv-{{ _user_name }}"
+      kind: Plan
+      api_version: forklift.konveyor.io/v1beta1
+    register: _plans
+
   block:
-    - name: Get all Plans in the mtv namespace
-      kubernetes.core.k8s_info:
-        namespace: "mtv-{{ _user_name }}"
-        kind: Plan
-        api_version: forklift.konveyor.io/v1beta1
-      register: _plans
+    when: delete_plans | bool is false
 
     - name: Archive all Plans in the mtv namespace
-      when: delete_plans | bool is false
       kubernetes.core.k8s:
         namespace: "mtv-{{ _user_name }}"
         kind: Plan
@@ -41,10 +43,7 @@
             archived: true
       loop: "{{ _plans.resources }}"
 
-    - name: Stop here when only archiving
-      when: delete_plans | bool is false
-      ansible.builtin.fail:
-        msg: "Stopped because I'm only archiving"
+  block:
 
     - name: Delete the plans
       kubernetes.core.k8s:
