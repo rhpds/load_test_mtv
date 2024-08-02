@@ -3,33 +3,34 @@
   hosts: localhost
   collections:
     - rlopez.ocp_virt
-#   roles:
-#   - {role: rlopez.ocp_virt.validation}
-#   - {role: rlopez.ocp_virt.providers}
-#   - {role: rlopez.ocp_virt.virt_plan}
+  #   roles:
+  #   - {role: rlopez.ocp_virt.validation}
+  #   - {role: rlopez.ocp_virt.providers}
+  #   - {role: rlopez.ocp_virt.virt_plan}
+
+  vars:
+    provision_data_file: "{{ playbook_dir }}/provision_data.yaml"
 
   tasks:
-
     - name: Load in provision data
       ansible.builtin.include_vars:
-        file: provision_data.yaml
+        file: "{{ provision_data_file }}"
 
     - name: Debug provision data
       ansible.builtin.debug:
         msg: "{{ provision_data }}"
 
     - block:
-
-      - name: Loop over users, including the tasks
-        vars:
-          _user_name: "{{ _user.value.user }}"
-          _user_password: "{{ _user.value.password }}"
-        ansible.builtin.include_tasks:
-          file: delete_migration.yaml
-        loop: "{{ provision_data.users | dict2items }}"
-        loop_control:
-          loop_var: _user
-          label: "{{ _user.key }}"
+        - name: Loop over users, including the tasks
+          vars:
+            _user_name: "{{ _user.value.user }}"
+            _user_password: "{{ _user.value.password }}"
+          ansible.builtin.include_tasks:
+            file: delete_migration.yaml
+          loop: "{{ provision_data.users | dict2items }}"
+          loop_control:
+            loop_var: _user
+            label: "{{ _user.key }}"
 
     # - name: Get all migration toolkit for virtualization plans that are status.condition.type == "Archived"
     #   kubernetes.core.k8s:
