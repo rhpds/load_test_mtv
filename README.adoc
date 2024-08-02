@@ -35,15 +35,15 @@ The playbook searches for `./provision_data.yaml` and uses that to authenticate 
 
 You can also indicate a different provision_data_file:
 
- ansible-playbook ./playbook_multi.yml --e provision_data_file=./provision_data2.yaml
+ ansible-playbook ./playbook_multi.yml -e provision_data_file=./provision_data2.yaml
 
 === Cleanup
 
 . First try deleting everything, but only setting the plans to Archived=true, per the docs.
 I don't see how it actually really cleans up anything, but I like to be a good citizen.
 
- ansible-playbook ./delete_all.yaml  --e delete_plans=false
+ ansible-playbook ./delete_all.yaml -e delete_plans=false -e provision_data_file=./provision_data2.yaml
 
 . Second, the Plans will not go away in Archived=true mode, so run the playbook again, with `delete_plans=true`
 
- ansible-playbook ./delete_all.yaml  --e delete_plans=true
+ ansible-playbook ./delete_all.yaml -e delete_plans=true -e provision_data_file=./provision_data2.yaml
