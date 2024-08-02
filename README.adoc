@@ -1,5 +1,9 @@
 == Load-Testing VM Migration with MTV
 
+=== Changes
+
+2024-08-02: variable added: `provision_data_file`.  Defaults to `./provision_data.yaml`
+
 === Prerequisites
 
 .Setting Up Provision Data for your target cluster
@@ -28,6 +32,10 @@ I use https://github.com/pyenv/pyenv?tab=readme-ov-file[pyenv] with https://gith
 The playbook searches for `./provision_data.yaml` and uses that to authenticate as each user to the cluster.
 
  ansible-playbook ./playbook_multi.yml
+
+You can also indicate a different provision_data_file:
+
+ ansible-playbook ./playbook_multi.yml --e provision_data_file=./provision_data2.yaml
 
 === Cleanup
 
