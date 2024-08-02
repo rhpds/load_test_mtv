@@ -43,7 +43,8 @@
 
     - name: Stop here when only archiving
       when: delete_plans | bool is false
-      ansible.builtin.fail: true
+      ansible.builtin.fail:
+        msg: "Stopped because I'm only archiving"
 
     - name: Delete the plans
       kubernetes.core.k8s:
