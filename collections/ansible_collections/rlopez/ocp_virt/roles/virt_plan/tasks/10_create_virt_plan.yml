@@ -57,7 +57,7 @@
   kubernetes.core.k8s:
     state: "{{ resource_state }}"
     definition:
-      apiVersion: forklift.konveyor.io/v1beta1
+      apiVersion: forklift.konveyor.io/v1beta1.NetworkMap
       kind: NetworkMap
       metadata:
         name: "{{ networkmap_name }}"
