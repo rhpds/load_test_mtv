@@ -1,5 +1,203 @@
 collections:
-- name: kubernetes.core
-- name: vmware.vmware_rest
-- name: community.general
-- name: kubevirt.core
+  - name: community.general
+    version: 9.2.0
+  - name: community.okd
+    version: 4.0.0
+  - name: kubernetes.core
+    version: 5.0.0
+  - name: kubevirt.core
+    version: 2.0.0
+  - name: microsoft.ad
+    version: 1.5.0
+  - name: vmware.vmware_rest
+    version: 3.0.1
+  - name: redhat_cop.controller_configuration
+    version: 2.3.1
+  - name: amazon.aws
+    version: 8.1.0
+  - name: ansible.netcommon
+    version: 6.1.3
+  - name: ansible.posix
+    version: 1.5.4
+  - name: ansible.utils
+    version: 4.1.0
+  - name: ansible.windows
+    version: 2.4.0
+  - name: arista.eos
+    version: 9.0.0
+  - name: awx.awx
+    version: 24.6.1
+  - name: azure.azcollection
+    version: 2.6.0
+  - name: check_point.mgmt
+    version: 5.2.3
+  - name: chocolatey.chocolatey
+    version: 1.5.1
+  - name: cisco.aci
+    version: 2.10.1
+  - name: cisco.asa
+    version: 5.0.1
+  - name: cisco.dnac
+    version: 6.16.0
+  - name: cisco.intersight
+    version: 2.0.9
+  - name: cisco.ios
+    version: 8.0.0
+  - name: cisco.iosxr
+    version: 9.0.0
+  - name: cisco.ise
+    version: 2.9.2
+  - name: cisco.meraki
+    version: 2.18.1
+  - name: cisco.mso
+    version: 2.8.0
+  - name: cisco.nxos
+    version: 8.1.0
+  - name: cisco.ucs
+    version: 1.10.0
+  - name: cloud.common
+    version: 3.0.0
+  - name: cloudscale_ch.cloud
+    version: 2.3.1
+  - name: community.aws
+    version: 8.0.0
+  - name: community.ciscosmb
+    version: 1.0.9
+  - name: community.crypto
+    version: 2.21.0
+  - name: community.digitalocean
+    version: 1.26.0
+  - name: community.dns
+    version: 3.0.2
+  - name: community.docker
+    version: 3.11.0
+  - name: community.general
+    version: 9.2.0
+  - name: community.grafana
+    version: 1.9.1
+  - name: community.hashi_vault
+    version: 6.2.0
+  - name: community.hrobot
+    version: 2.0.1
+  - name: community.library_inventory_filtering_v1
+    version: 1.0.1
+  - name: community.libvirt
+    version: 1.3.0
+  - name: community.mongodb
+    version: 1.7.5
+  - name: community.mysql
+    version: 3.9.0
+  - name: community.network
+    version: 5.0.3
+  - name: community.postgresql
+    version: 3.4.1
+  - name: community.proxysql
+    version: 1.6.0
+  - name: community.rabbitmq
+    version: 1.3.0
+  - name: community.routeros
+    version: 2.17.0
+  - name: community.sap_libs
+    version: 1.4.2
+  - name: community.sops
+    version: 1.8.0
+  - name: community.vmware
+    version: 4.5.0
+  - name: community.windows
+    version: 2.2.0
+  - name: community.zabbix
+    version: 2.5.1
+  - name: containers.podman
+    version: 1.15.4
+  - name: cyberark.conjur
+    version: 1.3.0
+  - name: cyberark.pas
+    version: 1.0.25
+  - name: dellemc.enterprise_sonic
+    version: 2.4.0
+  - name: dellemc.openmanage
+    version: 9.4.0
+  - name: dellemc.powerflex
+    version: 2.5.0
+  - name: dellemc.unity
+    version: 2.0.0
+  - name: f5networks.f5_modules
+    version: 1.29.0
+  - name: fortinet.fortimanager
+    version: 2.5.0
+  - name: fortinet.fortios
+    version: 2.3.7
+  - name: frr.frr
+    version: 2.0.2
+  - name: google.cloud
+    version: 1.3.0
+  - name: grafana.grafana
+    version: 5.3.0
+  - name: hetzner.hcloud
+    version: 3.1.1
+  - name: ibm.qradar
+    version: 3.0.0
+  - name: ibm.spectrum_virtualize
+    version: 2.0.0
+  - name: ibm.storage_virtualize
+    version: 2.4.1
+  - name: ieisystem.inmanage
+    version: 2.0.0
+  - name: infinidat.infinibox
+    version: 1.4.5
+  - name: infoblox.nios_modules
+    version: 1.6.1
+  - name: inspur.ispim
+    version: 2.2.3
+  - name: inspur.sm
+    version: 2.3.0
+  - name: junipernetworks.junos
+    version: 8.0.0
+  - name: kaytus.ksmanage
+    version: 1.2.2
+  - name: lowlydba.sqlserver
+    version: 2.3.3
+  - name: netapp.cloudmanager
+    version: 21.22.1
+  - name: netapp.ontap
+    version: 22.11.0
+  - name: netapp.storagegrid
+    version: 21.12.0
+  - name: netapp_eseries.santricity
+    version: 1.4.0
+  - name: netbox.netbox
+    version: 3.19.1
+  - name: ngine_io.cloudstack
+    version: 2.3.0
+  - name: ngine_io.exoscale
+    version: 1.1.0
+  - name: openstack.cloud
+    version: 2.2.0
+  - name: openvswitch.openvswitch
+    version: 2.1.1
+  - name: ovirt.ovirt
+    version: 3.2.0
+  - name: purestorage.flasharray
+    version: 1.30.0
+  - name: purestorage.flashblade
+    version: 1.17.0
+  - name: sensu.sensu_go
+    version: 1.14.0
+  - name: splunk.es
+    version: 3.0.0
+  - name: t_systems_mms.icinga_director
+    version: 2.0.1
+  - name: telekom_mms.icinga_director
+    version: 2.1.2
+  - name: theforeman.foreman
+    version: 4.0.0
+  - name: vmware.vmware
+    version: 1.3.0
+  - name: vmware.vmware_rest
+    version: 3.0.1
+  - name: vultr.cloud
+    version: 1.13.0
+  - name: vyos.vyos
+    version: 4.1.0
+  - name: wti.remote
+    version: 1.0.5
