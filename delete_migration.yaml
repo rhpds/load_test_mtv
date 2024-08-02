@@ -10,38 +10,44 @@
   ansible.builtin.debug:
     msg: "USERNAME: {{ _user_name }}"
 
-- name: A reasonable name
+- name: Get all Plans in the mtv namespace
   environment:
     K8S_AUTH_API_KEY: "{{ _auth_rez.openshift_auth.api_key }}"
     K8S_AUTH_HOST: "{{ provision_data.openshift_api_server_url }}"
-    K8S_AUTH_VERIFY_SSL: false
+    K8S_AUTH_VERIFY_SSL: "false"
+  kubernetes.core.k8s_info:
+    namespace: "mtv-{{ _user_name }}"
+    kind: Plan
+    api_version: forklift.konveyor.io/v1beta1
+  register: _plans
 
-  # module_defaults:
-  #   group/k8s:
-  #     api_key: "{{ _auth_rez.openshift_auth.api_key }}"
-  #
+- name: Archive all Plans in the mtv namespace
+  when: not delete_plans | bool
+  environment:
+    K8S_AUTH_API_KEY: "{{ _auth_rez.openshift_auth.api_key }}"
+    K8S_AUTH_HOST: "{{ provision_data.openshift_api_server_url }}"
+    K8S_AUTH_VERIFY_SSL: "false"
+  kubernetes.core.k8s:
+    namespace: "mtv-{{ _user_name }}"
+    kind: Plan
+    api_version: forklift.konveyor.io/v1beta1
+    state: patched
+    name: "{{ item.metadata.name }}"
+    definition:
+      spec:
+        archived: true
+  loop: "{{ _plans.resources }}"
 
-  - name: Get all Plans in the mtv namespace
-    kubernetes.core.k8s_info:
-      namespace: "mtv-{{ _user_name }}"
-      kind: Plan
-      api_version: forklift.konveyor.io/v1beta1
-    register: _plans
+- name: Debug me
+  ansible.builtin.debug:
+    msg: Debugging 
 
-  block:
-    when: delete_plans | bool is false
-
-    - name: Archive all Plans in the mtv namespace
-      kubernetes.core.k8s:
-        namespace: "mtv-{{ _user_name }}"
-        kind: Plan
-        api_version: forklift.konveyor.io/v1beta1
-        state: patched
-        name: "{{ item.metadata.name }}"
-        definition:
-          spec:
-            archived: true
-      loop: "{{ _plans.resources }}"
+- name: Stuff Goes here
+  when: delete_plans | bool
+  environment:
+    K8S_AUTH_API_KEY: "{{ _auth_rez.openshift_auth.api_key }}"
+    K8S_AUTH_HOST: "{{ provision_data.openshift_api_server_url }}"
+    K8S_AUTH_VERIFY_SSL: "false"
 
   block:
 
@@ -85,3 +91,4 @@
         api_version: kubevirt.io/v1
         state: absent
         delete_all: true
+
