@@ -1,4 +1,3 @@
-
 - name: Auth to kube with provision_data.users environment variables
   community.okd.openshift_auth:
     validate_certs: false
@@ -22,14 +21,38 @@
   #     api_key: "{{ _auth_rez.openshift_auth.api_key }}"
   #
   block:
+    - name: Get all Plans in the mtv namespace
+      kubernetes.core.k8s_info:
+        namespace: "mtv-{{ _user_name }}"
+        kind: Plan
+        api_version: forklift.konveyor.io/v1beta1
+      register: _plans
 
-    - name: Delete VMs in the vmexamples namespace
+    - name: Archive all Plans in the mtv namespace
+      when: delete_plans | bool is false
       kubernetes.core.k8s:
-        namespace: "vmexamples-{{ _user_name }}"
-        kind: VirtualMachine
-        api_version: kubevirt.io/v1
+        namespace: "mtv-{{ _user_name }}"
+        kind: Plan
+        api_version: forklift.konveyor.io/v1beta1
+        state: patched
+        name: "{{ item.metadata.name }}"
+        definition:
+          spec:
+            archived: true
+      loop: "{{ _plans.resources }}"
+
+    - name: Stop here when only archiving
+      when: delete_plans | bool is false
+      ansible.builtin.fail: true
+
+    - name: Delete the plans
+      kubernetes.core.k8s:
+        namespace: "mtv-{{ _user_name }}"
+        kind: Plan
+        api_version: forklift.konveyor.io/v1beta1
         state: absent
-        delete_all: true
+        name: "{{ item.metadata.name }}"
+      loop: "{{ _plans.resources }}"
 
     - name: Delete StorageMaps in the mtv namespace
       kubernetes.core.k8s:
@@ -47,46 +70,18 @@
         state: absent
         delete_all: true
 
-    - name: Get all Plans in the mtv namespace
-      kubernetes.core.k8s_info:
-        namespace: "mtv-{{ _user_name }}"
-        kind: Plan
-        api_version: forklift.konveyor.io/v1beta1
-      register: _plans
-
-    - name: Debug all plans
-      ansible.builtin.debug:
-        msg: "{{ item.metadata.name }}"
-      loop: "{{ _plans.resources }}"
-
-    - name: Archive all Plans in the mtv namespace
-      when: delete_plans | bool is false
-      kubernetes.core.k8s:
-        namespace: "mtv-{{ _user_name }}"
-        kind: Plan
-        api_version: forklift.konveyor.io/v1beta1
-        state: patched
-        name: "{{ item.metadata.name }}"
-        definition:
-          spec:
-            archived: true
-      loop: "{{ _plans.resources }}"
-
-    - name: Delete the plans
-      when: delete_plans | bool is true
-      kubernetes.core.k8s:
-        namespace: "mtv-{{ _user_name }}"
-        kind: Plan
-        api_version: forklift.konveyor.io/v1beta1
-        state: absent
-        name: "{{ item.metadata.name }}"
-      loop: "{{ _plans.resources }}"
-
     - name: Delete the migrations
-      when: delete_plans | bool is true
       kubernetes.core.k8s:
         namespace: "mtv-{{ _user_name }}"
         kind: Migration
         api_version: forklift.konveyor.io/v1beta1
+        state: absent
+        delete_all: true
+
+    - name: Delete VMs in the vmexamples namespace
+      kubernetes.core.k8s:
+        namespace: "vmexamples-{{ _user_name }}"
+        kind: VirtualMachine
+        api_version: kubevirt.io/v1
         state: absent
         delete_all: true
