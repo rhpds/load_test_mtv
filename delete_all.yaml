@@ -9,6 +9,7 @@
   #   - {role: rlopez.ocp_virt.virt_plan}
 
   vars:
+    delete_plans: false
     provision_data_file: "{{ playbook_dir }}/provision_data.yaml"
 
   tasks:

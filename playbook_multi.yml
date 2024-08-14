@@ -2,6 +2,8 @@
 - name: Playbook to kick off a mass migration from vmware to ocp-virt
   hosts: localhost
   vars:
+    # max number of users created.  use -e ceiling=10 for 10 users
+    ceiling: 100 
     provision_data_file: "{{ playbook_dir }}/provision_data.yaml"
     resource_state: present
   collections:
@@ -26,6 +28,7 @@
 
     - block:
         - name: Loop over users, including the tasks
+          when: my_idx < ceiling | int
           vars:
             _user_name: "{{ _user.value.user }}"
             _user_password: "{{ _user.value.password }}"
@@ -36,6 +39,7 @@
             file: kick_off_migration.yaml
           loop: "{{ provision_data.users | dict2items }}"
           loop_control:
+            index_var: my_idx
             loop_var: _user
             label: "{{ _user.key }}"
 
