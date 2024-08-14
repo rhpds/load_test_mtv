@@ -31,11 +31,15 @@ I use https://github.com/pyenv/pyenv?tab=readme-ov-file[pyenv] with https://gith
 
 The playbook searches for `./provision_data.yaml` and uses that to authenticate as each user to the cluster.
 
- ansible-playbook ./playbook_multi.yml
+ ansible-playbook ./playbook_multi.yml -e
 
 You can also indicate a different provision_data_file:
 
  ansible-playbook ./playbook_multi.yml -e provision_data_file=./provision_data2.yaml
+
+You can limit the number of users created with `-e ceiling=10`:
+
+ ansible-playbook ./playbook_multi.yml -e ceiling=10
 
 === Cleanup
 
