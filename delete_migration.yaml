@@ -40,7 +40,7 @@
 
 - name: Debug me
   ansible.builtin.debug:
-    msg: Debugging 
+    msg: Debugging
 
 - name: Stuff Goes here
   when: delete_plans | bool
@@ -92,3 +92,10 @@
         state: absent
         delete_all: true
 
+    - name: Delete the datavolumes in vmexamples namespace
+      kubernetes.core.k8s:
+        namespace: "vmexamples-{{ _user_name }}"
+        kind: DataVolume
+        api_version: cdi.kubevirt.io/v1beta1
+        state: absent
+        delete_all: true
