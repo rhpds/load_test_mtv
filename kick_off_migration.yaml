@@ -27,4 +27,4 @@
         networkmap_name: "networkmap-{{ _user_name }}"
         storagemap_name: "storagemap-{{ _user_name }}"
         plan_name: "plan-{{ _user_name }}"
-        user_selected_vm_names: "database\nwinweb01\nwinweb02"
+        user_selected_vm_names: "database-{{ guid }}\nwinweb01-{{ guid }}\nwinweb02-{{ guid }}"
