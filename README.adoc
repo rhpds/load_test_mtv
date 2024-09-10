@@ -3,6 +3,9 @@
 === Changes
 
 2024-08-02: variable added: `provision_data_file`.  Defaults to `./provision_data.yaml`
+2024-09-01: `-e count=N` allows to you run fewer users than the total in provision_data
+2024-09-10: datastore automatically detected from provision_data.yaml
+2024-09-10: datastore id looked up from VMware
 
 === Prerequisites
 
@@ -13,7 +16,7 @@
 +
 image:image_provision_data_babylon.png[]
 +
-NOTE: Make sure to get all the users from the provision_data yaml.
+NOTE: Make sure to get all the users from the provision_data yaml in the manifest.
 The playbook will use them and their auth credentials to login to the OCP cluster provider.
 
 === Install requirements.yml
@@ -31,7 +34,7 @@ I use https://github.com/pyenv/pyenv?tab=readme-ov-file[pyenv] with https://gith
 
 The playbook searches for `./provision_data.yaml` and uses that to authenticate as each user to the cluster.
 
- ansible-playbook ./playbook_multi.yml -e
+ ansible-playbook ./playbook_multi.yml
 
 You can also indicate a different provision_data_file:
 
