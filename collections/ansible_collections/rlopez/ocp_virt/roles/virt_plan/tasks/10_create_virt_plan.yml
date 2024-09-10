@@ -80,9 +80,14 @@
   vmware.vmware_rest.vcenter_datastore_info:
   register: all_the_datastores
 
+- name: Debug
+  ansible.builtin.debug:
+    msg: "my_datastore: {{ datastore }} datastores {{ all_the_datastores.value }}"
+
 - name: Capture the datastore id
   set_fact:
-    datastore_id: "{{ all_the_datastores.value[0].datastore }}"
+    datastore_id: >-
+      {{  all_the_datastores.value | json_query("[?name==`" + datastore + "`].datastore") | first }}
 
 - name: Create or update a StorageMap
   kubernetes.core.k8s:
@@ -96,14 +101,19 @@
       spec:
         map:
           - destination:
-              storageClass: ocs-storagecluster-ceph-rbd
+              #storageClass: ocs-external-storagecluster-ceph-rbd
+              storageClass: kubevirt-csi-infra-default
             source:
               id: "{{ datastore_id }}"
         provider:
           destination:
+            apiVersion: forklift.konveyor.io/v1beta1
+            kind: Provider
             name: host
             namespace: "{{ migration_namespace }}"
           source:
+            apiVersion: forklift.konveyor.io/v1beta1
+            kind: Provider
             name: vmware
             namespace: "{{ migration_namespace }}"
 
