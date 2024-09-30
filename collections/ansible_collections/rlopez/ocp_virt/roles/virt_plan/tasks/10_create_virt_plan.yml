@@ -128,16 +128,24 @@
         description: ''
         map:
           network:
+            apiVersion: forklift.konveyor.io/v1beta1
+            kind: NetworkMap
             name: "{{ networkmap_name }}"
             namespace: "{{ migration_namespace }}"
           storage:
+            apiVersion: forklift.konveyor.io/v1beta1
+            kind: StorageMap
             name: "{{ storagemap_name }}"
             namespace: "{{ migration_namespace }}"
         provider:
           destination:
+            apiVersion: forklift.konveyor.io/v1beta1
+            kind: Provider
             name: host
             namespace: "{{ migration_namespace }}"
           source:
+            apiVersion: forklift.konveyor.io/v1beta1
+            kind: Provider
             name: vmware
             namespace: "{{ migration_namespace }}"
         targetNamespace: "{{ migration_target_namespace }}"
