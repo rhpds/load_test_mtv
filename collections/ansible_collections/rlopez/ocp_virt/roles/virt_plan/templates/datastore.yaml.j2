@@ -12,11 +12,14 @@ spec:
       source:
         id: {{ value.datastore }}
 {% endfor %}
-
   provider:
     destination:
+      apiVersion: forklift.konveyor.io/v1beta1
+      kind: Provider
       name: host
       namespace: "{{ migration_namespace }}"
     source:
+      apiVersion: forklift.konveyor.io/v1beta1
+      kind: Provider
       name: vmware
       namespace: "{{ migration_namespace }}"
