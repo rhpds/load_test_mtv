@@ -28,4 +28,4 @@
         storagemap_name: "storagemap-{{ _user_name }}"
         plan_name: "plan-{{ _user_name }}"
         datastore: "{{ provision_data.vcenter_datastore }}"
-        user_selected_vm_names: "database-{{ provision_data.guid }}-{{ _user_name }}\nwinweb01-{{ provision_data.guid }}-{{ _user_name }}\nwinweb02-{{ provision_data.guid }}-{{ _user_name }}"
+        user_selected_vm_names: "database-{{ _user_name }}\nwinweb01-{{ _user_name }}\nwinweb02-{{ _user_name }}"
