@@ -70,9 +70,13 @@
               id: "{{ portgroup_id }}"
         provider:
           destination:
+            apiVersion: forklift.konveyor.io/v1beta1
+            kind: Provider
             name: host
             namespace: "{{ migration_namespace }}" # openshift-mtv
           source:
+            apiVersion: forklift.konveyor.io/v1beta1
+            kind: Provider
             name: vmware
             namespace:  "{{ migration_namespace }}" #openshift-mtv
 
